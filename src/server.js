@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoute = require('./routes/userRoute');
 const errorHandler = require('./middlewares/errorMiddleware');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 5000;
 mongoose.set('strictQuery', true);
 
