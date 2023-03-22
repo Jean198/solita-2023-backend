@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 mongoose.set('strictQuery', true);
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

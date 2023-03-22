@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const cookie = require('cookie');
 const { generateToken } = require('../services/user');
+const jwt = require('jsonwebtoken');
 
 //Register user -----------------------------------------------------------------------------------------------------------
 const registerUser = asyncHandler(async (req, res) => {
@@ -101,10 +102,25 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'User logout succesfully!' });
 });
 
+//Check login status------------------------------------------------------------------------------------
+const loginStatus = asyncHandler(async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json(false);
+  }
+
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  if (verified) {
+    return res.json(true);
+  }
+  return res.json(false);
+});
+
 //-----------------------------------------------------------------------------------------------------------------------
 
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  loginStatus,
 };
