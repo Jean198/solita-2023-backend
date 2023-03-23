@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoute = require('./routes/userRoute');
+const tripRoute = require('./routes/tripRoute');
 const errorHandler = require('./middlewares/errorMiddleware');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 5000;
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 //Routes middleware
 app.use('/api/users', userRoute);
+app.use('/api/trips', tripRoute);
 
 app.get('/', (req, res) => {
   res.send('HomeRoute');
