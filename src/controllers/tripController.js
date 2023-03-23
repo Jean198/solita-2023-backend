@@ -3,7 +3,6 @@ const asyncHandler = require('express-async-handler');
 
 //Get all trips-----------------------------------------------------------------------------------
 const getAllTrips = asyncHandler(async (req, res) => {
-  console.log('Req. sent');
   const limit = parseInt(req.query.limit) || 15;
   const page = parseInt(req.query.page) || 0;
   const search = req.query.search;
@@ -51,6 +50,34 @@ const getAllTrips = asyncHandler(async (req, res) => {
   });
 });
 
+//Get single Trip
+const getSingleTrip = asyncHandler(async (req, res) => {
+  console.log('req sent');
+  const trip = await Trip.findById(req.params.id);
+  if (!trip) {
+    res.status(404);
+    throw new Error('trip not found');
+  }
+  res.status(200).json(trip);
+});
+
+//Create Trip--------------------------------------------------------------------------------------------------------
+const createTrip = asyncHandler(async (req, res) => {
+  const trip = await Trip.create({
+    departure_date: req.body.departureDate,
+    return_date: req.body.returnDate,
+    departure_station_id: req.body.departureStationId,
+    departure_station_name: req.body.departureStationName,
+    return_station_id: req.body.returnStationId,
+    return_station_name: req.body.returnStationName,
+    covered_distance_m: parseFloat(req.body.distance),
+    duration_sec: parseFloat(req.body.duration),
+  });
+  res.status(200).json(trip);
+});
+
 module.exports = {
   getAllTrips,
+  createTrip,
+  getSingleTrip,
 };

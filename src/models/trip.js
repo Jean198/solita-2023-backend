@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const tripSchema = mongoose.Schema({
   departure_date: {
     type: Date,
+    default: Date.now(),
   },
   return_date: {
     type: Date,
+    default: Date.now(),
   },
 
   departure_station_id: {
