@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 //Station Schema
 const stationSchema = mongoose.Schema({
   FID: {
-    type: String,
+    type: Number,
   },
 
   id: {

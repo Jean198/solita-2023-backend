@@ -17,6 +17,18 @@ async function generateUniqueId() {
   }
 }
 
+const generateFdi = async () => {
+  // find the highest id in the Mongoose field
+  const maxIdObj = await Station.findOne().sort({ FID: -1 }).exec();
+
+  const maxId = maxIdObj ? maxIdObj.FID : 0;
+
+  // generate the new id by adding 1 to the highest id
+  const newFID = maxId + 1;
+  return newFID;
+};
+
 module.exports = {
   generateUniqueId,
+  generateFdi,
 };

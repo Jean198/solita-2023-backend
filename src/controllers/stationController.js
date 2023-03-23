@@ -1,6 +1,7 @@
 const Station = require('../models/station');
 const Trip = require('../models/trip');
 const asyncHandler = require('express-async-handler');
+const { generateUniqueId, generateFdi } = require('../services/station');
 
 //Get all stations
 const getStations = asyncHandler(async (req, res) => {
@@ -43,6 +44,24 @@ const getStations = asyncHandler(async (req, res) => {
   });
 });
 
+//Creating a new station
+const createStation = asyncHandler(async (req, res) => {
+  const newFDI = await generateFdi();
+
+  const station = await Station.create({
+    FID: newFDI,
+    id: await generateUniqueId(),
+    name: req.body.stationName,
+    address: req.body.stationAddress,
+    city: req.body.city,
+    operator: req.body.operator,
+    y: parseFloat(req.body.latitude),
+    x: parseFloat(req.body.longitude),
+  });
+  res.status(200).json(station);
+});
+
 module.exports = {
   getStations,
+  createStation,
 };
