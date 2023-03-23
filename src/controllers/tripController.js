@@ -52,7 +52,6 @@ const getAllTrips = asyncHandler(async (req, res) => {
 
 //Get single Trip
 const getSingleTrip = asyncHandler(async (req, res) => {
-  console.log('req sent');
   const trip = await Trip.findById(req.params.id);
   if (!trip) {
     res.status(404);
@@ -87,9 +86,54 @@ const createTrip = asyncHandler(async (req, res) => {
   res.status(200).json(trip);
 });
 
+//update trip
+
+const updateTrip = asyncHandler(async (req, res) => {
+  const {
+    departureDate,
+    returnDate,
+    departureStationId,
+    departureStationName,
+    returnStationId,
+    returnStationName,
+    distance,
+    duration,
+  } = req.body;
+  const { id } = req.params;
+  const trip = await Trip.findById(id);
+
+  if (!trip) {
+    res.status(404);
+    throw new Error('trip not found');
+  }
+
+  // Update trip
+  const updatedtrip = await Trip.findByIdAndUpdate(
+    { _id: id },
+
+    {
+      departure_date: req.body.departureDate,
+      return_date: req.body.returnDate,
+      departure_station_id: req.body.departureStationId,
+      departure_station_name: req.body.departureStationName,
+      return_station_id: req.body.returnStationId,
+      return_station_name: req.body.returnStationName,
+      covered_distance_m: parseFloat(req.body.distance),
+      duration_sec: parseFloat(req.body.duration),
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json(updatedtrip);
+});
+
 module.exports = {
   getAllTrips,
   createTrip,
   getSingleTrip,
   deleteTrip,
+  updateTrip,
 };
