@@ -61,6 +61,17 @@ const getSingleTrip = asyncHandler(async (req, res) => {
   res.status(200).json(trip);
 });
 
+//Delete trip
+const deleteTrip = asyncHandler(async (req, res) => {
+  const trip = await Trip.findById(req.params.id);
+  if (!trip) {
+    res.status(404);
+    throw new Error('trip not found');
+  }
+  await Trip.deleteOne({ _id: req.params.id });
+  res.status(200).json({ message: 'trip deleted successfully!' });
+});
+
 //Create Trip--------------------------------------------------------------------------------------------------------
 const createTrip = asyncHandler(async (req, res) => {
   const trip = await Trip.create({
@@ -80,4 +91,5 @@ module.exports = {
   getAllTrips,
   createTrip,
   getSingleTrip,
+  deleteTrip,
 };
