@@ -86,7 +86,7 @@ const createTrip = asyncHandler(async (req, res) => {
   res.status(200).json(trip);
 });
 
-//update trip
+//update trip--------------------------------------------------------------------------------------------------------------
 
 const updateTrip = asyncHandler(async (req, res) => {
   const {
