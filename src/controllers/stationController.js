@@ -167,9 +167,21 @@ const updateStation = asyncHandler(async (req, res) => {
   res.status(200).json(updatedStation);
 });
 
+//Delete trip
+const deleteStation = asyncHandler(async (req, res) => {
+  const station = await Station.findById(req.params.id);
+  if (!station) {
+    res.status(404);
+    throw new Error('station not found');
+  }
+  await Station.deleteOne({ _id: req.params.id });
+  res.status(200).json({ message: 'station deleted successfully!' });
+});
+
 module.exports = {
   getStations,
   createStation,
   getSingleStationInfo,
   updateStation,
+  deleteStation,
 };
