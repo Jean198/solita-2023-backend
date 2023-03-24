@@ -126,6 +126,8 @@ const updateTrip = asyncHandler(async (req, res) => {
       runValidators: true,
     }
   );
+  console.log(req.body);
+  console.log(updatedtrip);
 
   res.status(200).json(updatedtrip);
 });

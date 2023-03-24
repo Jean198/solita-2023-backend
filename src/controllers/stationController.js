@@ -130,8 +130,46 @@ const createStation = asyncHandler(async (req, res) => {
   res.status(200).json(station);
 });
 
+//update trip--------------------------------------------------------------------------------------------------------------
+
+const updateStation = asyncHandler(async (req, res) => {
+  console.log('reqsent');
+  const { stationName, stationAddress, city, operator, longitude, latitude } =
+    req.body;
+  const { id } = req.params;
+  const station = await Station.findById(id);
+
+  if (!station) {
+    res.status(404);
+    throw new Error('station not found');
+  }
+
+  // Update trip
+  const updatedStation = await Station.findByIdAndUpdate(
+    { _id: id },
+
+    {
+      FID: station.FID,
+      id: station.id,
+      name: stationName,
+      address: stationAddress,
+      city: city,
+      operator: operator,
+      y: parseFloat(latitude),
+      x: parseFloat(longitude),
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json(updatedStation);
+});
+
 module.exports = {
   getStations,
   createStation,
   getSingleStationInfo,
+  updateStation,
 };
