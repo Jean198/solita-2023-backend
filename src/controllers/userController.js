@@ -91,11 +91,12 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // Logout user------------------------------------------------------------------------------------------------
 const logoutUser = asyncHandler(async (req, res) => {
+  //Send Http-only cookie
   res.cookie('token', '', {
     path: '/',
     httpOnly: true,
-    expires: new Date(0),
-    sameSite: 'none',
+    expires: new Date(Date.now() + 1000 * 86400),
+    sameSite: 'none', // disabling this helped to get the cookie in the browser
     secure: true,
   });
 
