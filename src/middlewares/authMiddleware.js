@@ -15,7 +15,7 @@ const protectRoute = asyncHandler(async (req, res, next) => {
 
   //Get user id from token
   const user = await User.findById(verified.id).select('-password');
-  if (!user) {
+  if (!user || user.username === 'visitor') {
     res.status(401);
     throw new Error('Not authorised, please login!');
   }

@@ -12,7 +12,7 @@ const {
 router.get('/gettrips', getAllTrips);
 router.get('/gettrip/:id', getSingleTrip);
 router.delete('/deletetrip/:id', protectRoute, deleteTrip);
-router.post('/createtrip', createTrip);
+router.post('/createtrip', protectRoute, createTrip);
 router.patch('/updatetrip/:id', protectRoute, updateTrip);
 
 module.exports = router;
