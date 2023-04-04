@@ -142,11 +142,9 @@ const createStation = asyncHandler(async (req, res) => {
 const updateStation = asyncHandler(async (req, res) => {
   const { stationName, stationAddress, city, operator, longitude, latitude } =
     req.body;
-  console.log(req.body);
   const { id } = req.params;
 
   const station = await Station.find({ id: id });
-  console.log(station);
 
   if (!station) {
     res.status(404);
