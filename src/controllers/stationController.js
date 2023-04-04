@@ -48,6 +48,12 @@ const getStations = asyncHandler(async (req, res) => {
 const getSingleStationInfo = asyncHandler(async (req, res) => {
   const station_id = req.params.id;
 
+  const station = await Station.find({ id: [station_id] });
+  if (!station) {
+    res.status(404);
+    throw new Error('station not found');
+  }
+
   const stationDepartureTripsArray = await Trip.find({
     // All the departure trips from this station id
     departure_station_id: [station_id],
@@ -104,6 +110,7 @@ const getSingleStationInfo = asyncHandler(async (req, res) => {
     (await averageDistance(stationReturnTripsArray)) / returnCounts;
 
   res.status(200).json({
+    station,
     departureCounts,
     returnCounts,
     popularDepartureStations,
@@ -133,11 +140,13 @@ const createStation = asyncHandler(async (req, res) => {
 //update trip--------------------------------------------------------------------------------------------------------------
 
 const updateStation = asyncHandler(async (req, res) => {
-  console.log('reqsent');
   const { stationName, stationAddress, city, operator, longitude, latitude } =
     req.body;
+  console.log(req.body);
   const { id } = req.params;
-  const station = await Station.findById(id);
+
+  const station = await Station.find({ id: id });
+  console.log(station);
 
   if (!station) {
     res.status(404);
@@ -145,8 +154,8 @@ const updateStation = asyncHandler(async (req, res) => {
   }
 
   // Update trip
-  const updatedStation = await Station.findByIdAndUpdate(
-    { _id: id },
+  const updatedStation = await Station.findOneAndUpdate(
+    { id: id },
 
     {
       FID: station.FID,
