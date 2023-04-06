@@ -19,9 +19,6 @@ const getAllTrips = asyncHandler(async (req, res) => {
     })
       .skip(offset)
       .limit(limit);
-    console.log('I am running');
-    console.log(searchType);
-    console.log(search);
     tripsCollectionCount = await Trip.count({
       [searchType]: { $regex: search, $options: 'i' },
     });
@@ -29,8 +26,6 @@ const getAllTrips = asyncHandler(async (req, res) => {
     //When not search, just rendering all trips by page
     tripsCollection = await Trip.find().skip(offset).limit(limit);
     tripsCollectionCount = await Trip.count();
-    console.log('No its me I am running');
-    console.log(tripsCollectionCount);
   }
 
   const popularDepartures = await Trip.aggregate() //Popular departure stations.
