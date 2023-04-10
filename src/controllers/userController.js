@@ -71,7 +71,7 @@ const loginUser = asyncHandler(async (req, res) => {
     //Send Http-only cookie
     res.cookie('token', token, {
       path: '/',
-      domain: '*',
+      //domain: '*',
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
       sameSite: 'none', // disabling this helped to get the cookie in the browser
@@ -95,7 +95,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   //Send Http-only cookie
   res.cookie('token', '', {
     path: '/',
-    domain: '*',
+    //domain: '*',
     httpOnly: true,
     expires: new Date(Date.now() + 1000 * 86400),
     sameSite: 'none', // disabling this helped to get the cookie in the browser
